@@ -7,7 +7,7 @@ class Product {
     protected $description;
     protected $image;
 
-    public function __construct(string $name, float $price, string $category, string $description, string $image) {
+    public function __construct(string $name, string $price, string $category, string $description, string $image) {
         $this->name = $name;
         $this->price = $price;
         $this->category = $category;
@@ -52,3 +52,51 @@ class User {
         $this->password = $password;
     }
 }
+
+class CreditCard {
+    protected $type;
+    protected $number;
+    protected $owner;
+    protected $expireDate;
+    private $cvc;
+
+    public function __construct(string $type, string $number, string $owner, string $expireDate, int $cvc) {
+        $this->type = $type;
+        $this->number = $number;
+        $this->owner = $owner;
+        $this->expireDate = $expireDate;
+        $this->cvc = $cvc;
+    }
+}
+
+class Seller extends User {
+
+}
+
+class Buyer extends User {
+
+    protected $creditCards = [];
+    public function addCreditCard(CreditCard $creditCard) {
+        $this->creditCards = $creditCard;
+    }
+
+    public function getCreditCard() {
+        return $this->creditCards;
+    }
+}
+
+/* Nel negozio c'è questo prodotto: */
+$newProduct = new Product('The Witcher 3', '29,99€', 'videogiochi', 'lorem ipsum', 'src');
+var_dump($newProduct);
+echo '<br> <br>';
+
+/* Questo acquirente: */
+$newBuyer = new Buyer('Tommaso', 'Zorzi', 'Tommy95', 'tommaso@live.it', 'pippo');
+var_dump($newBuyer);
+
+/* Vuole comprarlo con questa carta di credito: */
+$newCreditCard = new CreditCard('Mastercard', '4858XXX', 'Tommaso Zorzi', '05/2022', 035);
+echo '<br> <br>';
+
+$newBuyer->addCreditCard($newCreditCard);
+print_r($newBuyer->getCreditCard());
